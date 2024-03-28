@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("com.google.android.material:material:1.11.0")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //View model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -79,11 +82,6 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.50")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
     kapt("com.google.dagger:hilt-compiler:2.50")
 
     //Room
