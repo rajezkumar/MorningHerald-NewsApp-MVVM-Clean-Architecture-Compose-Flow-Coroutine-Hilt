@@ -3,7 +3,7 @@ package com.raj.morningherald.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class News(
+data class NewsResponse(
     @SerializedName("articles")
     val articles: List<Article>,
     @SerializedName("status")

@@ -1,5 +1,6 @@
 package com.raj.morningherald.presentation.home_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raj.morningherald.data.model.Article
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel() {
 
@@ -31,6 +33,7 @@ class HomeViewModel @Inject constructor(private val newsRepository: NewsReposito
                     _newsData.value = UiState.Error(e.toString())
                 }.collect {
                     _newsData.value = UiState.Success(it)
+                    Log.d("Rajesh", it.toString())
                 }
         }
     }

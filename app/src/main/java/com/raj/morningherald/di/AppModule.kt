@@ -1,7 +1,10 @@
 package com.raj.morningherald.di
 
+import android.app.Application
+import androidx.room.Room
 import com.raj.morningherald.core.util.Constants.API_KEY
 import com.raj.morningherald.core.util.Constants.BASE_URL
+import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
 import com.raj.morningherald.domain.repository.NewsRepository
@@ -35,6 +38,17 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsApi: NewsApi): NewsRepository = NewsRepositoryImpl(newsApi)
+    fun provideNewsRepository(newsApi: NewsApi, newsDatabase: NewsDatabase): NewsRepository =
+        NewsRepositoryImpl(newsApi, newsDatabase)
+
+    @Provides
+    @Singleton
+    fun provideDataBase(app: Application): NewsDatabase {
+        return Room.databaseBuilder(
+            app,
+            NewsDatabase::class.java,
+            "article.db"
+        ).build()
+    }
 
 }
