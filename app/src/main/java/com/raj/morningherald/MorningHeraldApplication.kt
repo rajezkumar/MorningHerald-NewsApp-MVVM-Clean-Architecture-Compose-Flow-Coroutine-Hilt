@@ -1,4 +1,8 @@
 package com.raj.morningherald
 
-class MorningHeraldApplication {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class MorningHeraldApplication : Application() {
 }
