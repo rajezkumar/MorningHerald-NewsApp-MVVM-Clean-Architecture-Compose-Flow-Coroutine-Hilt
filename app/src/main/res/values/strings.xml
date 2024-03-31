@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MorningHerald</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="news">News</string>
+    <string name="home">Home</string>
+    <string name="browse">Browse</string>
 </resources>

@@ -70,6 +70,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 
     //View model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

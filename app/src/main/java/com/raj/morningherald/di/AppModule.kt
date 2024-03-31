@@ -1,9 +1,14 @@
 package com.raj.morningherald.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
+import com.raj.morningherald.core.util.ConnectivityChecker
+import com.raj.morningherald.core.util.ConnectivityCheckerImpl
 import com.raj.morningherald.core.util.Constants.API_KEY
 import com.raj.morningherald.core.util.Constants.BASE_URL
+import com.raj.morningherald.core.util.DefaultDispatcherProvider
+import com.raj.morningherald.core.util.DispatcherProvider
 import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
@@ -11,6 +16,7 @@ import com.raj.morningherald.domain.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -50,5 +56,15 @@ class AppModule {
             "article.db"
         ).build()
     }
+
+    @Provides
+    @Singleton
+    fun provideConnectivityChecker(@ApplicationContext context: Context): ConnectivityChecker =
+        ConnectivityCheckerImpl(context)
+
+
+    @Provides
+    @Singleton
+    fun provideDispatcher(): DispatcherProvider = DefaultDispatcherProvider()
 
 }
