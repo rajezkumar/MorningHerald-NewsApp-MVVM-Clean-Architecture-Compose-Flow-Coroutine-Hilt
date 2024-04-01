@@ -6,6 +6,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,10 +26,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
+import com.raj.morningherald.core.util.ValidationUtil
 import com.raj.morningherald.data.model.Article
 import com.raj.morningherald.presentation.base.ArticleScreen
 import com.raj.morningherald.presentation.browse.BrowseScreen
 import com.raj.morningherald.presentation.newslist.NewsListPagingScreen
+import com.raj.morningherald.presentation.newslist.NewsListScreen
 import com.raj.morningherald.presentation.newssource.NewsSourceScreen
 import java.net.URLEncoder
 
@@ -66,6 +69,7 @@ fun NewsTopBar() {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsBottomNavigation(
     currentScreen: Routes,
@@ -84,6 +88,9 @@ fun NewsBottomNavigation(
                 onClick = {
                     onIconSelected.invoke(screen)
                 },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.LightGray
+                )
             )
         }
     }
@@ -105,8 +112,15 @@ private fun NewsNavHost(
             route = Routes.Home.route,
             arguments = listOf(navArgument("source") { type = NavType.StringType })
         ) {
-            NewsListPagingScreen { article ->
-                navigateToArticleScreen(article, navController)
+            val sourceCode = it.arguments?.getString("source")
+            if (ValidationUtil.checkIfValidArgNews(sourceCode)) {
+                NewsListScreen { article ->
+                    navigateToArticleScreen(article, navController)
+                }
+            } else {
+                NewsListPagingScreen { article ->
+                    navigateToArticleScreen(article, navController)
+                }
             }
         }
         composable(route = Routes.News.route) {
