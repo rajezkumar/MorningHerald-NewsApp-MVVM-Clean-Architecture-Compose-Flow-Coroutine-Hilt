@@ -1,4 +1,4 @@
-package com.raj.morningherald.core.util
+package com.raj.morningherald.core.common.connectivity
 
 import android.content.Context
 import android.net.ConnectivityManager

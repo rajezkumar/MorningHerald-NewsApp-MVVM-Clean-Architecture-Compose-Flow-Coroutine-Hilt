@@ -64,13 +64,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.google.android.material:material:1.11.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     //View model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -94,8 +94,14 @@ dependencies {
 
     //Test
     testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    testImplementation("app.cash.turbine:turbine:0.12.1")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     testImplementation ("io.mockk:mockk:1.13.3")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
 }

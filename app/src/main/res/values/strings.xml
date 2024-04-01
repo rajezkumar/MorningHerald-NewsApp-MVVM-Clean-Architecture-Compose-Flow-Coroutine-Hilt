@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">MorningHerald</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">MH</string>
     <string name="news">News</string>
     <string name="home">Home</string>
     <string name="browse">Browse</string>
+    <string name="loading">Loading\n</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="no_internet_available">No internet available</string>
+    <string name="no_data_available">No data available</string>
+    <string name="retry">Retry</string>
+    <string name="unknown">unknown</string>
+    <string name="search">Search</string>
+    <string name="label_name">MorningHerald</string>
+
 </resources>

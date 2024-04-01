@@ -1,9 +1,9 @@
-package com.raj.morningherald.core.util
+package com.raj.morningherald.core.common.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-class DefaultDispatcherProvider : DispatcherProvider {
+class DispatcherProviderImpl : DispatcherProvider {
     override val main: CoroutineDispatcher
         get() = Dispatchers.Main
 

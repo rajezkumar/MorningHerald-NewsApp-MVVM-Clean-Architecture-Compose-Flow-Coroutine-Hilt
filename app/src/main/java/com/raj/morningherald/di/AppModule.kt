@@ -3,12 +3,12 @@ package com.raj.morningherald.di
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.raj.morningherald.core.util.ConnectivityChecker
-import com.raj.morningherald.core.util.ConnectivityCheckerImpl
+import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
+import com.raj.morningherald.core.common.connectivity.ConnectivityCheckerImpl
 import com.raj.morningherald.core.util.Constants.API_KEY
 import com.raj.morningherald.core.util.Constants.BASE_URL
-import com.raj.morningherald.core.util.DefaultDispatcherProvider
-import com.raj.morningherald.core.util.DispatcherProvider
+import com.raj.morningherald.core.common.dispatcher.DispatcherProviderImpl
+import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
@@ -44,8 +44,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsApi: NewsApi, newsDatabase: NewsDatabase): NewsRepository =
-        NewsRepositoryImpl(newsApi, newsDatabase)
+    fun provideNewsRepository(newsApi: NewsApi, newsDatabase: NewsDatabase, connectivityChecker: ConnectivityChecker): NewsRepository =
+        NewsRepositoryImpl(newsApi, newsDatabase, connectivityChecker)
 
     @Provides
     @Singleton
@@ -65,6 +65,6 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideDispatcher(): DispatcherProvider = DefaultDispatcherProvider()
+    fun provideDispatcher(): DispatcherProvider = DispatcherProviderImpl()
 
 }

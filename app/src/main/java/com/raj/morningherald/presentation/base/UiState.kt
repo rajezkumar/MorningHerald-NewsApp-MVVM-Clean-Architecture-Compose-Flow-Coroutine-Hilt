@@ -1,4 +1,4 @@
-package com.raj.morningherald.presentation.util
+package com.raj.morningherald.presentation.base
 
 sealed class UiState<T> {
     class Success<T>(val data: T) : UiState<T>()
