@@ -7,8 +7,8 @@ import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
 import com.raj.morningherald.data.local.mapper.toArticleEntity
-import com.raj.morningherald.data.model.Article
-import com.raj.morningherald.data.model.Source
+import com.raj.morningherald.data.remote.model.Article
+import com.raj.morningherald.data.remote.model.Source
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow

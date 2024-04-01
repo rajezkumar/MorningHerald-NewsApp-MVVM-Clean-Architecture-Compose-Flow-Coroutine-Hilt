@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.raj.morningherald.R
-import com.raj.morningherald.data.model.Source
+import com.raj.morningherald.data.remote.model.Source
 import com.raj.morningherald.presentation.base.ShowError
 import com.raj.morningherald.presentation.base.ShowLoading
 import com.raj.morningherald.presentation.base.UiState

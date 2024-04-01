@@ -1,9 +1,9 @@
 import app.cash.turbine.test
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.data.local.database.NewsDatabase
-import com.raj.morningherald.data.model.Article
-import com.raj.morningherald.data.model.NewsResponse
-import com.raj.morningherald.data.model.Source
+import com.raj.morningherald.data.remote.model.Article
+import com.raj.morningherald.data.remote.model.NewsResponse
+import com.raj.morningherald.data.remote.model.Source
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
 import io.mockk.MockKAnnotations

@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.raj.morningherald.core.util.ValidationUtil
-import com.raj.morningherald.data.model.Article
+import com.raj.morningherald.data.remote.model.Article
 import com.raj.morningherald.presentation.base.ArticleScreen
 import com.raj.morningherald.presentation.browse.BrowseScreen
 import com.raj.morningherald.presentation.newslist.NewsListPagingScreen

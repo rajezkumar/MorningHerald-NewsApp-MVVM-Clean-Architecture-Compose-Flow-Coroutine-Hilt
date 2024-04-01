@@ -6,13 +6,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.raj.morningherald.core.util.Constants
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.util.ValidationUtil.checkIfValidArgNews
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
-import com.raj.morningherald.data.model.Article
+import com.raj.morningherald.data.remote.model.Article
 import com.raj.morningherald.data.remote.PagingArticle
 import com.raj.morningherald.domain.repository.NewsRepository
 import com.raj.morningherald.presentation.base.UiState
@@ -58,6 +59,12 @@ class NewsViewModel @Inject constructor(
                 .flowOn(dispatcherProvider.io)
                 .catch { e ->
                     _newsData.value = UiState.Error(e.message.toString())
+                }
+                .map {
+                    it.filter { article ->
+                        article.title?.isNotEmpty() == true &&
+                                article.urlToImage?.isNotEmpty() == true
+                    }
                 }.collect { article ->
                     _newsData.value = UiState.Success(article)
                 }
@@ -71,6 +78,12 @@ class NewsViewModel @Inject constructor(
                 .flowOn(dispatcherProvider.io)
                 .catch { e ->
                     _newsData.value = UiState.Error(e.message.toString())
+                }
+                .map {
+                    it.filter { article ->
+                        article.title?.isNotEmpty() == true &&
+                                article.urlToImage?.isNotEmpty() == true
+                    }
                 }.collect { article ->
                     _newsData.value = UiState.Success(article)
                 }
@@ -82,6 +95,9 @@ class NewsViewModel @Inject constructor(
             articlePager.flow.cachedIn(viewModelScope).map {
                 it.map { articleEntity ->
                     articleEntity.toArticle()
+                }.filter { article ->
+                    article.title?.isNotEmpty() == true &&
+                            article.urlToImage?.isNotEmpty() == true
                 }
             }.collect {
                 _newsDataPaging.value = it

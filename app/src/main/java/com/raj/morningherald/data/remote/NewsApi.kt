@@ -4,8 +4,8 @@ import com.raj.morningherald.core.util.Constants.DEFAULT_COUNTRY
 import com.raj.morningherald.core.util.Constants.DEFAULT_SOURCE
 import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE
 import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE_SIZE
-import com.raj.morningherald.data.model.NewsResponse
-import com.raj.morningherald.data.model.NewsSourceResponse
+import com.raj.morningherald.data.remote.model.NewsResponse
+import com.raj.morningherald.data.remote.model.NewsSourceResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

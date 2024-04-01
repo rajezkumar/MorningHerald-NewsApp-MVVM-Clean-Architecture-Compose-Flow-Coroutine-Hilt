@@ -2,8 +2,8 @@ package com.raj.morningherald.data.local.mapper
 
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.entity.SourceEntity
-import com.raj.morningherald.data.model.Article
-import com.raj.morningherald.data.model.Source
+import com.raj.morningherald.data.remote.model.Article
+import com.raj.morningherald.data.remote.model.Source
 
 fun Article.toArticleEntity(): ArticleEntity {
     return ArticleEntity(

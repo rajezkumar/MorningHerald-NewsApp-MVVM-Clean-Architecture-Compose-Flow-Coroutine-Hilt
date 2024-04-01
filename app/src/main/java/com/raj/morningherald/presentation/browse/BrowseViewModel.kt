@@ -3,7 +3,7 @@ package com.raj.morningherald.presentation.browse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
-import com.raj.morningherald.data.model.Article
+import com.raj.morningherald.data.remote.model.Article
 import com.raj.morningherald.domain.repository.NewsRepository
 import com.raj.morningherald.presentation.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

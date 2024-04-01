@@ -1,4 +1,4 @@
-package com.raj.morningherald.data.model
+package com.raj.morningherald.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
