@@ -1,19 +1,25 @@
-package com.raj.morningherald.presentation.article
+package com.raj.morningherald.presentation.newslist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.raj.morningherald.R
 import com.raj.morningherald.data.model.Article
 import com.raj.morningherald.presentation.base.ShowError
 import com.raj.morningherald.presentation.base.ShowLoading
 import com.raj.morningherald.presentation.base.UiState
 
+@ExperimentalMaterial3Api
 @Composable
 fun NewsListScreen(
     newsViewModel: NewsViewModel = hiltViewModel(),
@@ -35,7 +41,7 @@ fun NewsListScreen(
                     text = errorText,
                     retryEnabled = true
                 ) {
-                    newsViewModel.getHeadlines()
+                    newsViewModel.getArticleHeadlines()
                 }
             }
 
@@ -55,3 +61,49 @@ fun NewsListScreen(
     }
 }
 
+@ExperimentalMaterial3Api
+@Composable
+fun NewsListPagingScreen(
+    newsViewModel: NewsViewModel = hiltViewModel(),
+    newsClicked: (Article) -> Unit
+) {
+    val pagingData = newsViewModel.newsDataPaging.collectAsLazyPagingItems()
+    when (pagingData.loadState.refresh) {
+        is LoadState.Loading -> {
+            ShowLoading()
+        }
+
+        is LoadState.Error -> {
+            val errorText =
+                (pagingData.loadState.refresh as LoadState.Error).error.message
+                    ?: stringResource(id = R.string.something_went_wrong)
+            ShowError(
+                text = errorText,
+                retryEnabled = true
+            ) {
+                newsViewModel.getArticlesPagination()
+            }
+        }
+
+        else -> {
+            NewsPagingAppend(pagingData, newsClicked)
+        }
+    }
+}
+
+
+@Composable
+private fun NewsPagingAppend(
+    pagingData: LazyPagingItems<Article>,
+    newsClicked: (Article) -> Unit,
+) {
+    LazyColumn {
+        items(pagingData.itemCount) { index ->
+            pagingData.get(index)?.let { article ->
+                Article(article) {
+                    newsClicked(article)
+                }
+            }
+        }
+    }
+}

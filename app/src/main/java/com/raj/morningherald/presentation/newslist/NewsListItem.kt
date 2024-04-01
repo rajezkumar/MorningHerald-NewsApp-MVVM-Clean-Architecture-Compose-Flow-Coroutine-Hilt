@@ -1,4 +1,4 @@
-package com.raj.morningherald.presentation.article
+package com.raj.morningherald.presentation.newslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

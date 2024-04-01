@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.raj.morningherald.R
+import com.raj.morningherald.data.model.Article
 
 @Composable
 fun ShowLoading(
@@ -110,5 +112,19 @@ fun WebViewScreen(
     },
         modifier = modifier
     )
+}
+
+
+@Composable
+fun ArticleScreen(article: Article) {
+    Scaffold {
+        if (article.url == null) {
+            ShowError(text = stringResource(id = R.string.something_went_wrong))
+        } else {
+            WebViewScreen(
+                url = article.url, modifier = Modifier.padding(it)
+            )
+        }
+    }
 }
 

@@ -2,6 +2,8 @@ package com.raj.morningherald.di
 
 import android.app.Application
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.core.common.connectivity.ConnectivityCheckerImpl
@@ -9,8 +11,12 @@ import com.raj.morningherald.core.util.Constants.API_KEY
 import com.raj.morningherald.core.util.Constants.BASE_URL
 import com.raj.morningherald.core.common.dispatcher.DispatcherProviderImpl
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
+import com.raj.morningherald.core.util.Constants.DB_NAME
+import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE_SIZE
 import com.raj.morningherald.data.local.database.NewsDatabase
+import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.remote.NewsApi
+import com.raj.morningherald.data.remote.PagingArticle
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
 import com.raj.morningherald.domain.repository.NewsRepository
 import dagger.Module
@@ -44,7 +50,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsApi: NewsApi, newsDatabase: NewsDatabase, connectivityChecker: ConnectivityChecker): NewsRepository =
+    fun provideNewsRepository(
+        newsApi: NewsApi,
+        newsDatabase: NewsDatabase,
+        connectivityChecker: ConnectivityChecker
+    ): NewsRepository =
         NewsRepositoryImpl(newsApi, newsDatabase, connectivityChecker)
 
     @Provides
@@ -53,7 +63,7 @@ class AppModule {
         return Room.databaseBuilder(
             app,
             NewsDatabase::class.java,
-            "article.db"
+            DB_NAME
         ).build()
     }
 
@@ -66,5 +76,15 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDispatcher(): DispatcherProvider = DispatcherProviderImpl()
+
+    @Provides
+    @Singleton
+    fun provideArticlePager(pagingArticle: PagingArticle): Pager<Int, ArticleEntity> {
+        return Pager(
+            config = PagingConfig(DEFAULT_PAGE_SIZE)
+        ) {
+            pagingArticle
+        }
+    }
 
 }

@@ -2,7 +2,9 @@ package com.raj.morningherald.data.repository
 
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.core.common.NoInternetException
+import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE
 import com.raj.morningherald.data.local.database.NewsDatabase
+import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
 import com.raj.morningherald.data.local.mapper.toArticleEntity
 import com.raj.morningherald.data.model.Article
@@ -10,6 +12,7 @@ import com.raj.morningherald.data.model.Source
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import kotlin.Exception
@@ -67,4 +70,22 @@ class NewsRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    suspend fun getNewsFromDb(): List<ArticleEntity> {
+        return newsDatabase.articleDao().getAllArticles().first()
+    }
+
+    override suspend fun getHeadlinesPagination(pageNumber: Int): List<ArticleEntity> {
+        val fetchedArticles = newsApi.getHeadlines(
+            page = pageNumber
+        ).articles
+        val articleEntities = fetchedArticles.map { it.toArticleEntity() }
+        return if (pageNumber == DEFAULT_PAGE) {
+            newsDatabase.articleDao().deleteAllInsertAll(articleEntities)
+            newsDatabase.articleDao().getAllArticles().first()
+        } else {
+            articleEntities
+        }
+    }
+
 }

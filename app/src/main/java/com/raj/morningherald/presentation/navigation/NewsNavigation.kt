@@ -26,9 +26,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.raj.morningherald.data.model.Article
-import com.raj.morningherald.presentation.article.ArticleScreen
+import com.raj.morningherald.presentation.base.ArticleScreen
 import com.raj.morningherald.presentation.browse.BrowseScreen
-import com.raj.morningherald.presentation.article.NewsListScreen
+import com.raj.morningherald.presentation.newslist.NewsListPagingScreen
 import com.raj.morningherald.presentation.newssource.NewsSourceScreen
 import java.net.URLEncoder
 
@@ -90,6 +90,7 @@ fun NewsBottomNavigation(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NewsNavHost(
     modifier: Modifier = Modifier,
@@ -104,7 +105,7 @@ private fun NewsNavHost(
             route = Routes.Home.route,
             arguments = listOf(navArgument("source") { type = NavType.StringType })
         ) {
-            NewsListScreen { article ->
+            NewsListPagingScreen { article ->
                 navigateToArticleScreen(article, navController)
             }
         }

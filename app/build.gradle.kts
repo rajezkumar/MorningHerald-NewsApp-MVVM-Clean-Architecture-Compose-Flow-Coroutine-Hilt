@@ -23,6 +23,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY", "\"\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -102,6 +105,10 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    testImplementation ("io.mockk:mockk:1.13.3")
+    testImplementation("io.mockk:mockk:1.13.3")
+
+    // Paging
+    implementation ("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation ("androidx.paging:paging-compose:3.2.1")
 
 }

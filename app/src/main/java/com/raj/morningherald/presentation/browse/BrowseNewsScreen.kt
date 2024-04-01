@@ -21,7 +21,7 @@ import com.raj.morningherald.data.model.Article
 import com.raj.morningherald.presentation.base.ShowError
 import com.raj.morningherald.presentation.base.ShowLoading
 import com.raj.morningherald.presentation.base.UiState
-import com.raj.morningherald.presentation.article.NewsListView
+import com.raj.morningherald.presentation.newslist.NewsListView
 
 @Composable
 fun BrowseScreen(
