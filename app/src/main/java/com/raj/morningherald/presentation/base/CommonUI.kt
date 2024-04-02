@@ -31,7 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.raj.morningherald.R
-import com.raj.morningherald.data.remote.model.Article
+import com.raj.morningherald.domain.model.Article
 
 @Composable
 fun ShowLoading(

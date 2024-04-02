@@ -7,8 +7,10 @@ import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
 import com.raj.morningherald.data.local.mapper.toArticleEntity
-import com.raj.morningherald.data.remote.model.Article
-import com.raj.morningherald.data.remote.model.Source
+import com.raj.morningherald.data.local.mapper.toSource
+import com.raj.morningherald.data.local.mapper.toSourceEntity
+import com.raj.morningherald.domain.model.Article
+import com.raj.morningherald.domain.model.Source
 import com.raj.morningherald.data.remote.NewsApi
 import com.raj.morningherald.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +46,7 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getNewsSource(): Flow<List<Source>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.getNewsSources().sources)
+                emit(newsApi.getNewsSources().sources.map { it.toSource() })
             } else {
                 throw NoInternetException()
             }
@@ -54,7 +56,7 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getNewsBySource(source: String): Flow<List<Article>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.getNewsBySource(source).articles)
+                emit(newsApi.getNewsBySource(source).articles.map { it.toArticle() })
             } else {
                 throw NoInternetException()
             }
@@ -64,7 +66,7 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun browseNews(query: String): Flow<List<Article>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.browseNews(query).articles)
+                emit(newsApi.browseNews(query).articles.map { it.toArticle() })
             } else {
                 throw NoInternetException()
             }

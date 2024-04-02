@@ -3,9 +3,9 @@ package com.raj.morningherald.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NewsResponse(
+data class NewsDto(
     @SerializedName("articles")
-    val articles: List<Article>,
+    val articles: List<ArticleDto>,
     @SerializedName("status")
     val status: String,
     @SerializedName("totalResults")

@@ -1,9 +1,8 @@
 package com.raj.morningherald.data.remote.model
 
-
 import com.google.gson.annotations.SerializedName
 
-data class Article(
+data class ArticleDto(
     @SerializedName("title")
     val title: String?,
     @SerializedName("description")
@@ -13,5 +12,5 @@ data class Article(
     @SerializedName("urlToImage")
     val urlToImage: String?,
     @SerializedName("source")
-    val source: Source
+    val source: SourceDto
 )

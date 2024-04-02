@@ -1,8 +1,8 @@
 package com.raj.morningherald.domain.repository
 
 import com.raj.morningherald.data.local.entity.ArticleEntity
-import com.raj.morningherald.data.remote.model.Article
-import com.raj.morningherald.data.remote.model.Source
+import com.raj.morningherald.domain.model.Article
+import com.raj.morningherald.domain.model.Source
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {

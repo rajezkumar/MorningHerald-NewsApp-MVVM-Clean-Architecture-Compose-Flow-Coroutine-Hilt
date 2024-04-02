@@ -14,7 +14,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.raj.morningherald.R
-import com.raj.morningherald.data.remote.model.Article
+import com.raj.morningherald.domain.model.Article
 import com.raj.morningherald.presentation.base.ShowError
 import com.raj.morningherald.presentation.base.ShowLoading
 import com.raj.morningherald.presentation.base.UiState

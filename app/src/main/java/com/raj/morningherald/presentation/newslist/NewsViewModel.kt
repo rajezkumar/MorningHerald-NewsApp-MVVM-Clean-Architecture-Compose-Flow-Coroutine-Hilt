@@ -13,8 +13,7 @@ import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.util.ValidationUtil.checkIfValidArgNews
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
-import com.raj.morningherald.data.remote.model.Article
-import com.raj.morningherald.data.remote.PagingArticle
+import com.raj.morningherald.domain.model.Article
 import com.raj.morningherald.domain.repository.NewsRepository
 import com.raj.morningherald.presentation.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel

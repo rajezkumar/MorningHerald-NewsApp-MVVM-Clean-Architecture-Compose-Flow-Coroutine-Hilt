@@ -1,10 +1,13 @@
 import app.cash.turbine.test
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.data.local.database.NewsDatabase
-import com.raj.morningherald.data.remote.model.Article
-import com.raj.morningherald.data.remote.model.NewsResponse
-import com.raj.morningherald.data.remote.model.Source
+import com.raj.morningherald.data.local.mapper.toArticle
+import com.raj.morningherald.domain.model.Article
+import com.raj.morningherald.data.remote.model.NewsDto
+import com.raj.morningherald.domain.model.Source
 import com.raj.morningherald.data.remote.NewsApi
+import com.raj.morningherald.data.remote.model.ArticleDto
+import com.raj.morningherald.data.remote.model.SourceDto
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -50,19 +53,29 @@ class NewsRepositoryImplTest {
     fun fetchNewsBySources_WithSuccessfulNetworkResponse_ReturnsSuccess() {
         runTest {
             val sourceName = "abc-news"
-            val article = Article(
+            val articleDto = ArticleDto(
                 title = "title",
                 description = "description",
                 url = "url",
                 urlToImage = "urlToImage",
-                source = Source(id = "id", name = "name")
+                source = SourceDto(id = "id", name = "name")
             )
-            val articles = listOf(article)
-            val newsResponse =
-                NewsResponse(status = "ok", articles = articles, totalResults = 1)
+            val articlesDto = listOf(articleDto)
+            val newsDto =
+                NewsDto(status = "ok", articles = articlesDto, totalResults = 1)
+
+            val articles = articlesDto.map { dto ->
+                Article(
+                    title = dto.title,
+                    description = dto.description,
+                    url = dto.url,
+                    urlToImage = dto.urlToImage,
+                    source = Source(id = dto.source.id, name = dto.source.name)
+                )
+            }
 
             every { connectivityChecker.hasInternetConnection() } returns true
-            coEvery { newsApi.getNewsBySource(sourceName) } returns newsResponse
+            coEvery { newsApi.getNewsBySource(sourceName) } returns newsDto
 
             newsRepositoryImpl.getNewsBySource(sourceName).test {
                 val emittedArticles = awaitItem()
