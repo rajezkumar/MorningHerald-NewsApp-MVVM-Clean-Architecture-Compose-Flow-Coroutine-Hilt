@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.raj.morningherald.core.common.NoInternetException
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
+import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE
 import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE_SIZE
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.repository.NewsRepositoryImpl
@@ -27,7 +28,7 @@ class PagingArticle @Inject constructor(
         withContext(dispatcherProvider.io) {
             kotlin.runCatching {
                 if (!connectivityChecker.hasInternetConnection()) {
-                    if (page == DEFAULT_PAGE_SIZE) {
+                    if (page == DEFAULT_PAGE) {
                         val articles = newsRepositoryImpl.getNewsFromDb()
                         loadResult = LoadResult.Page(
                             data = articles,
