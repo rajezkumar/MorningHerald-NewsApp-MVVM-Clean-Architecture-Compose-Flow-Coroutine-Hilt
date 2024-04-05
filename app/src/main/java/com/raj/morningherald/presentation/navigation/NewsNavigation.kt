@@ -69,7 +69,6 @@ fun NewsTopBar() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsBottomNavigation(
     currentScreen: Routes,
