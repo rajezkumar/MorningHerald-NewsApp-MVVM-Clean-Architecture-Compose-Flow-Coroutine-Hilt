@@ -5,15 +5,14 @@ import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.common.dispatcher.TestDispatcherProvider
 import com.raj.morningherald.domain.model.Source
 import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.presentation.base.UiState
 import com.raj.morningherald.presentation.newssource.SourceViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -53,10 +52,9 @@ class SourceViewModelTest {
                 newsRepository, dispatcherProvider
             )
             sourceViewModel.getNewsSource()
-
             sourceViewModel.newsSource.test {
                 val firstItem = awaitItem()
-                println(firstItem)
+                assert(firstItem is UiState.Success)
                 cancelAndIgnoreRemainingEvents()
             }
         }
