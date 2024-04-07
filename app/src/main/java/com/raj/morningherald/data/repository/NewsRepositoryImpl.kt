@@ -1,5 +1,6 @@
 package com.raj.morningherald.data.repository
 
+import com.raj.morningherald.core.common.ErrorException
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.core.common.NoInternetException
 import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE
@@ -32,8 +33,7 @@ class NewsRepositoryImpl @Inject constructor(
                     val articleEntities = fetchedArticles.map { it.toArticleEntity() }
                     newsDatabase.articleDao().deleteAllInsertAll(articleEntities)
                 } catch (e: Exception) {
-                    emit(emptyList<Article>())
-                    return@flow
+                    throw ErrorException()
                 }
             }
             val articles = newsDatabase.articleDao().getAllArticles()
@@ -46,7 +46,11 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getNewsSource(): Flow<List<Source>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.getNewsSources().sources.map { it.toSource() })
+                try {
+                    emit(newsApi.getNewsSources().sources.map { it.toSource() })
+                } catch (e: Exception) {
+                    throw ErrorException()
+                }
             } else {
                 throw NoInternetException()
             }
@@ -56,7 +60,11 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun getNewsBySource(source: String): Flow<List<Article>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.getNewsBySource(source).articles.map { it.toArticle() })
+                try {
+                    emit(newsApi.getNewsBySource(source).articles.map { it.toArticle() })
+                } catch (e: Exception) {
+                    throw ErrorException()
+                }
             } else {
                 throw NoInternetException()
             }
@@ -66,7 +74,11 @@ class NewsRepositoryImpl @Inject constructor(
     override suspend fun browseNews(query: String): Flow<List<Article>> {
         return flow {
             if (connectivityChecker.hasInternetConnection()) {
-                emit(newsApi.browseNews(query).articles.map { it.toArticle() })
+                try {
+                    emit(newsApi.browseNews(query).articles.map { it.toArticle() })
+                } catch (e: Exception) {
+                    throw ErrorException()
+                }
             } else {
                 throw NoInternetException()
             }
