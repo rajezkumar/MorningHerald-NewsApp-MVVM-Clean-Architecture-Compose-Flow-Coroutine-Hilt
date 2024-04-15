@@ -23,6 +23,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -59,11 +60,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideDataBase(app: Application): NewsDatabase {
+    fun provideDataBase(app: Application, @DataBaseName dataBaseName: String): NewsDatabase {
         return Room.databaseBuilder(
             app,
             NewsDatabase::class.java,
-            DB_NAME
+            dataBaseName
         ).build()
     }
 
@@ -86,5 +87,9 @@ class AppModule {
             pagingArticle
         }
     }
+
+    @DataBaseName
+    @Provides
+    fun provideDataBaseName(): String = DB_NAME
 
 }

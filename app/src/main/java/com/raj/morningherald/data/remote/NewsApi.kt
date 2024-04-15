@@ -16,14 +16,17 @@ interface NewsApi {
         @Query("page") page: Int = DEFAULT_PAGE,
         @Query("pageSize") pageSize: Int = DEFAULT_PAGE_SIZE
     ): NewsDto
+
     @GET("sources")
     suspend fun getNewsSources(): NewsSourceDto
+
     @GET("top-Headlines")
     suspend fun getNewsBySource(
         @Query("sources") sources: String = DEFAULT_SOURCE,
         @Query("page") page: Int = DEFAULT_PAGE,
         @Query("pageSize") pageSize: Int = DEFAULT_PAGE_SIZE
     ): NewsDto
+
     @GET("everything")
     suspend fun browseNews(
         @Query("q") query: String,

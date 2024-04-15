@@ -3,6 +3,7 @@ package com.raj.morningherald.presentation.browse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
+import com.raj.morningherald.core.util.Constants.BROWSE_DEBOUNCE
 import com.raj.morningherald.domain.model.Article
 import com.raj.morningherald.domain.repository.NewsRepository
 import com.raj.morningherald.presentation.base.UiState
@@ -43,7 +44,7 @@ class BrowseViewModel @Inject constructor(
 
     fun browseNews() {
         viewModelScope.launch {
-            _query.debounce(300L)
+            _query.debounce(BROWSE_DEBOUNCE)
                 .filter { query ->
                     return@filter query.isNotEmpty() && query.length >= 2
                 }.distinctUntilChanged()
