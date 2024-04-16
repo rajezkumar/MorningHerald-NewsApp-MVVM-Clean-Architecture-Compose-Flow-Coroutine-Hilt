@@ -5,7 +5,7 @@ import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.common.dispatcher.TestDispatcherProvider
 import com.raj.morningherald.domain.model.Article
 import com.raj.morningherald.domain.model.Source
-import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.domain.usecase.BrowseNewsUseCase
 import com.raj.morningherald.presentation.base.UiState
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ class BrowseViewModelTest {
 
 
     @MockK
-    private lateinit var newsRepository: NewsRepository
+    private lateinit var browseNewsUseCase: BrowseNewsUseCase
 
     private lateinit var dispatcherProvider: DispatcherProvider
 
@@ -53,10 +53,10 @@ class BrowseViewModelTest {
                     urlToImage = "urlToImage"
                 )
             )
-            coEvery { newsRepository.browseNews("abc") } returns flow { emit(article) }
+            coEvery { browseNewsUseCase("abc") } returns flow { emit(article) }
 
             val browseViewModel = BrowseViewModel(
-                newsRepository, dispatcherProvider
+                 dispatcherProvider, browseNewsUseCase
             )
 
             browseViewModel.browseNews("abc")
@@ -66,7 +66,7 @@ class BrowseViewModelTest {
                 assert(firstItem is UiState.Success)
                 cancelAndIgnoreRemainingEvents()
             }
-            coVerify(exactly = 1) { newsRepository.browseNews("abc") }
+            coVerify(exactly = 1) { browseNewsUseCase("abc") }
         }
     }
 }

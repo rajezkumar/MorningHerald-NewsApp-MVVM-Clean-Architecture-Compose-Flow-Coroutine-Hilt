@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.domain.model.Source
-import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.domain.usecase.GetNewsSourceUseCase
 import com.raj.morningherald.presentation.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SourceViewModel @Inject constructor(
-    private val newsRepository: NewsRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val getNewsSourceUseCase: GetNewsSourceUseCase
 ) : ViewModel() {
 
     private val _newsSource = MutableStateFlow<UiState<List<Source>>>(UiState.Empty())
@@ -30,7 +30,7 @@ class SourceViewModel @Inject constructor(
     fun getNewsSource() {
         viewModelScope.launch {
             _newsSource.emit(UiState.Loading())
-            newsRepository.getNewsSource()
+            getNewsSourceUseCase()
                 .flowOn(dispatcherProvider.io)
                 .catch { e ->
                     _newsSource.value = UiState.Error(e.message.toString())

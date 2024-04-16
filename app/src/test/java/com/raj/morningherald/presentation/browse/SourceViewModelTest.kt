@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.common.dispatcher.TestDispatcherProvider
 import com.raj.morningherald.domain.model.Source
-import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.domain.usecase.GetNewsSourceUseCase
 import com.raj.morningherald.presentation.base.UiState
 import com.raj.morningherald.presentation.newssource.SourceViewModel
 import io.mockk.MockKAnnotations
@@ -22,12 +22,10 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class SourceViewModelTest {
 
-
-    @MockK
-    private lateinit var newsRepository: NewsRepository
-
     private lateinit var dispatcherProvider: DispatcherProvider
 
+    @MockK
+    private lateinit var getNewsSourceUseCase: GetNewsSourceUseCase
 
     @Before
     fun setUp() {
@@ -46,10 +44,10 @@ class SourceViewModelTest {
             val source = listOf(
                 Source(id = "id", name = "name")
             )
-            coEvery { newsRepository.getNewsSource() } returns flow { emit(source) }
+            coEvery { getNewsSourceUseCase.invoke() } returns flow { emit(source) }
 
             val sourceViewModel = SourceViewModel(
-                newsRepository, dispatcherProvider
+                dispatcherProvider, getNewsSourceUseCase
             )
             sourceViewModel.getNewsSource()
             sourceViewModel.newsSource.test {

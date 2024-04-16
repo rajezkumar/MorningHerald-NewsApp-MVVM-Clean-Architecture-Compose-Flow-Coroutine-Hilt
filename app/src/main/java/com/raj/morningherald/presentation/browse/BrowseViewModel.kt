@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.raj.morningherald.core.common.dispatcher.DispatcherProvider
 import com.raj.morningherald.core.util.Constants.BROWSE_DEBOUNCE
 import com.raj.morningherald.domain.model.Article
-import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.domain.usecase.BrowseNewsUseCase
 import com.raj.morningherald.presentation.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,8 +24,8 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
 class BrowseViewModel @Inject constructor(
-    private val newsRepository: NewsRepository,
     private val dispatcherProvider: DispatcherProvider,
+    private val browseNewsUseCase: BrowseNewsUseCase
 ) : ViewModel() {
 
     private val _newsData = MutableStateFlow<UiState<List<Article>>>(UiState.Empty())
@@ -50,7 +50,7 @@ class BrowseViewModel @Inject constructor(
                 }.distinctUntilChanged()
                 .flatMapLatest {
                     _newsData.value = UiState.Loading()
-                    return@flatMapLatest newsRepository.browseNews(it)
+                    return@flatMapLatest browseNewsUseCase.invoke(it)
                         .catch { e ->
                             _newsData.value = UiState.Error(e.message.toString())
                         }
