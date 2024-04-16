@@ -9,7 +9,6 @@ import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
 import com.raj.morningherald.data.local.mapper.toArticleEntity
 import com.raj.morningherald.data.local.mapper.toSource
-import com.raj.morningherald.data.local.mapper.toSourceEntity
 import com.raj.morningherald.domain.model.Article
 import com.raj.morningherald.domain.model.Source
 import com.raj.morningherald.data.remote.NewsApi

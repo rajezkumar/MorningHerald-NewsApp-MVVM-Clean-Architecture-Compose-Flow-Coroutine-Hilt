@@ -14,7 +14,8 @@ import com.raj.morningherald.core.util.ValidationUtil.checkIfValidArgNews
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
 import com.raj.morningherald.domain.model.Article
-import com.raj.morningherald.domain.repository.NewsRepository
+import com.raj.morningherald.domain.usecase.GetArticleHeadlinesUseCase
+import com.raj.morningherald.domain.usecase.GetNewsBySourceUseCase
 import com.raj.morningherald.presentation.base.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,9 +29,10 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val newsRepository: NewsRepository,
     private val dispatcherProvider: DispatcherProvider,
-    private val articlePager: Pager<Int, ArticleEntity>
+    private val articlePager: Pager<Int, ArticleEntity>,
+    private val getArticleHeadlinesUseCase: GetArticleHeadlinesUseCase,
+    private val getNewsBySourceUseCase: GetNewsBySourceUseCase,
 ) : ViewModel() {
 
     private val _newsData = MutableStateFlow<UiState<List<Article>>>(UiState.Empty())
@@ -54,7 +56,7 @@ class NewsViewModel @Inject constructor(
     fun getArticleHeadlines() {
         viewModelScope.launch {
             _newsData.emit(UiState.Loading())
-            newsRepository.getHeadlines()
+            getArticleHeadlinesUseCase()
                 .flowOn(dispatcherProvider.io)
                 .catch { e ->
                     _newsData.value = UiState.Error(e.message.toString())
@@ -73,7 +75,7 @@ class NewsViewModel @Inject constructor(
     private fun fetchNewsBySource(source: String?) {
         viewModelScope.launch {
             _newsData.emit(UiState.Loading())
-            newsRepository.getNewsBySource(source ?: Constants.DEFAULT_SOURCE)
+            getNewsBySourceUseCase(source ?: Constants.DEFAULT_SOURCE)
                 .flowOn(dispatcherProvider.io)
                 .catch { e ->
                     _newsData.value = UiState.Error(e.message.toString())
