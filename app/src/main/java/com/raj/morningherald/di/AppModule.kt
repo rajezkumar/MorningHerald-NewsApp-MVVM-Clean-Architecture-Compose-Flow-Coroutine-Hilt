@@ -78,15 +78,6 @@ class AppModule {
     @Singleton
     fun provideDispatcher(): DispatcherProvider = DispatcherProviderImpl()
 
-    @Provides
-    @Singleton
-    fun provideArticlePager(pagingArticle: PagingArticle): Pager<Int, ArticleEntity> {
-        return Pager(
-            config = PagingConfig(DEFAULT_PAGE_SIZE)
-        ) {
-            pagingArticle
-        }
-    }
 
     @DataBaseName
     @Provides
