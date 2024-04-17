@@ -38,7 +38,7 @@ class BrowseViewModel @Inject constructor(
         browseNews()
     }
 
-    fun browseNews(browseQuery: String = _query.value) {
+    fun browseNews(browseQuery: String) {
         _query.value = browseQuery
     }
 
@@ -51,9 +51,8 @@ class BrowseViewModel @Inject constructor(
                 .flatMapLatest {
                     _newsData.value = UiState.Loading()
                     return@flatMapLatest browseNewsUseCase.invoke(it)
-                        .catch { e ->
-                            _newsData.value = UiState.Error(e.message.toString())
-                        }
+                }.catch { e ->
+                    _newsData.value = UiState.Error(e.message.toString())
                 }.flowOn(dispatcherProvider.io)
                 .collect { article ->
                     _newsData.value = UiState.Success(article)

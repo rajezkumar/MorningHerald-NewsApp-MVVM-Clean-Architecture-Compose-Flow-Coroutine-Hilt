@@ -42,31 +42,72 @@ class BrowseViewModelTest {
     }
 
     @Test
-    fun browseNews_whenRepositorySuccess_shouldSetSuccessUiState() {
-        runTest {
-            val article = listOf(
-                Article(
-                    title = "title",
-                    description = "description",
-                    source = Source(id = "id", name = "name"),
-                    url = "url",
-                    urlToImage = "urlToImage"
-                )
+    fun browseNews_WithValidQuery_ShouldSetSuccessUiState() = runTest {
+        val article = listOf(
+            Article(
+                title = "title",
+                description = "description",
+                source = Source(id = "id", name = "name"),
+                url = "url",
+                urlToImage = "urlToImage"
             )
-            coEvery { browseNewsUseCase("abc") } returns flow { emit(article) }
+        )
+        coEvery { browseNewsUseCase("abc") } returns flow { emit(article) }
 
-            val browseViewModel = BrowseViewModel(
-                 dispatcherProvider, browseNewsUseCase
-            )
+        val browseViewModel = BrowseViewModel(
+            dispatcherProvider, browseNewsUseCase
+        )
 
-            browseViewModel.browseNews("abc")
-            advanceTimeBy(400)
-            browseViewModel.newsData.test {
-                val firstItem = awaitItem()
-                assert(firstItem is UiState.Success)
-                cancelAndIgnoreRemainingEvents()
-            }
-            coVerify(exactly = 1) { browseNewsUseCase("abc") }
+        browseViewModel.browseNews("abc")
+        advanceTimeBy(400)
+        browseViewModel.newsData.test {
+            val firstItem = awaitItem()
+            assert(firstItem is UiState.Success)
+            cancelAndIgnoreRemainingEvents()
         }
+        coVerify(exactly = 1) { browseNewsUseCase("abc") }
+    }
+
+    @Test
+    fun browseNews_WithEmptyQuery_ShouldNotCallUseCase() = runTest {
+        val browseViewModel = BrowseViewModel(
+            dispatcherProvider, browseNewsUseCase
+        )
+
+        browseViewModel.browseNews("")
+        advanceTimeBy(400)
+        coVerify(exactly = 0) { browseNewsUseCase(any()) }
+    }
+
+    @Test
+    fun browseNews_WithShortQuery_ShouldNotCallUseCase() = runTest {
+        val browseViewModel = BrowseViewModel(
+            dispatcherProvider, browseNewsUseCase
+        )
+
+        browseViewModel.browseNews("a")
+        advanceTimeBy(400)
+        coVerify(exactly = 0) { browseNewsUseCase(any()) }
+    }
+
+    @Test
+    fun browseNews_WithUseCaseFailure_ShouldSetErrorUiState() = runTest {
+        coEvery { browseNewsUseCase("abc") } throws Exception("Error")
+
+        val browseViewModel = BrowseViewModel(
+            dispatcherProvider, browseNewsUseCase
+        )
+
+        browseViewModel.browseNews("abc")
+        advanceTimeBy(400)
+        browseViewModel.newsData.test {
+            val firstItem = awaitItem()
+            println("First item: $firstItem") // Add this line to print out the firstItem
+            assert(firstItem is UiState.Error)
+            cancelAndIgnoreRemainingEvents()
+        }
+        coVerify(exactly = 1) { browseNewsUseCase("abc") }
     }
 }
+
+
