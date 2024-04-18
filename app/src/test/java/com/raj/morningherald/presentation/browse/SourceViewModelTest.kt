@@ -9,6 +9,7 @@ import com.raj.morningherald.presentation.base.UiState
 import com.raj.morningherald.presentation.newssource.SourceViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,7 +45,7 @@ class SourceViewModelTest {
             val source = listOf(
                 Source(id = "id", name = "name")
             )
-            coEvery { getNewsSourceUseCase.invoke() } returns flow { emit(source) }
+            coEvery { getNewsSourceUseCase() } returns flow { emit(source) }
 
             val sourceViewModel = SourceViewModel(
                 dispatcherProvider, getNewsSourceUseCase
@@ -55,6 +56,7 @@ class SourceViewModelTest {
                 assert(firstItem is UiState.Success)
                 cancelAndIgnoreRemainingEvents()
             }
+            coVerify { getNewsSourceUseCase() }
         }
     }
 }

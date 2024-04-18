@@ -102,7 +102,6 @@ class BrowseViewModelTest {
         advanceTimeBy(400)
         browseViewModel.newsData.test {
             val firstItem = awaitItem()
-            println("First item: $firstItem") // Add this line to print out the firstItem
             assert(firstItem is UiState.Error)
             cancelAndIgnoreRemainingEvents()
         }

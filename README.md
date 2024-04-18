@@ -2,29 +2,32 @@
 
 ### Core Features
 
-- **Dynamic News Articles Fetching:** Integrates with [NewsAPI.org](https://newsapi.org/docs/endpoints/sources) to retrieve news articles based on different sources.
-- **Bottom Navigation Interface:** Facilitates easy navigation between the Home screen, News by Source, and Browse sections.
+- **Dynamic News Articles Fetching:** Integrates with [NewsAPI.org](https://newsapi.org/docs/endpoints/sources) to fetch the latest news articles.
+- **Bottom Navigation Interface:** Facilitates easy navigation between different sections of the app.
 - **Offline Capability:** Allows for reading news articles even when offline, enhancing accessibility
-- **Pagination:** Implements pagination for better management and loading of news articles.
-- **Unit Testing:** Ensures reliability and stability through thorough unit tests.
+- **Pagination:** Implements pagination for loading news articles in chunks, improving performance and user experience.
+- **Unit Testing:** Ensures code quality and reliability through unit tests.
 
 ### Leveraged Libraries & Technologies
-- **MVVM Architecture**: For a scalable, maintainable app structure.
-- **Kotlin**: The primary language offering concise syntax and powerful features.
-- **Jetpack Compose**: For building dynamic UIs with less boilerplate code.
-- **Dagger Hilt**: Simplifies dependency injection, streamlining the development process.
+- **MVVM Clean Architecture**: For a clear separation of concerns and easy maintenance
+- **Kotlin**: As the primary programming language for its conciseness and expressiveness.
+- **Jetpack Compose**: For building the UI with a declarative and reactive approach.
+- **Dagger Hilt**: For dependency injection and managing the app's object graph.
 - **Coroutines & Flow**: For efficient asynchronous programming and real-time data streaming.
-- **Retrofit & OkHttp**: Powers network operations with easy-to-use HTTP request methods.
+- **Retrofit & OkHttp**: For making network requests and handling API responses.
 - **StateFlow**: For seamlessly updating and managing UI content based on data state changes.
-- **Pagination**: Facilitates smooth data loading and scrolling experiences.
-- **Coil**: An image loading library specifically designed for Compose.
-- **Room**: Manages local database storage for offline access to news articles.
-- **Kotlin DSL**: Utilized in Gradle for script writing, enhancing build configurations.
+- **Pagination**: For loading news articles in chunks and enhancing user experience.
+- **Coil**: For loading and caching images efficiently.
+- **Room**: For storing and managing news articles in a local database.
+- **Kotlin DSL**: For configuring Gradle build scripts in a more concise and readable manner.
 - **Mockk**: A Kotlin-focused mocking library for effectively unit testing.
+- **Turbine**: For testing flows and coroutines in a simple and concise manner.
 
 ### Planned Upgrades
-- Refactoring and enhancing code base for further improvization.
-- Filter News by Country and Language: To provide a more personalized news reading experience.
+- Refactoring and enhancing code quality for better maintainability.
+- Implementing UI tests for better coverage and reliability.
+- Adding more sources and categories for a wider range of news articles.
+- Refactor Jetpack Compose UI for better performance and user experience.
 - Background Sync with WorkManager: To periodically update news articles in the background.
 - Extended Offline Support: Aiming for offline functionality across all pages for uninterrupted news access.
 
