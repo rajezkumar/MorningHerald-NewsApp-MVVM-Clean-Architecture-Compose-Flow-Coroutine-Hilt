@@ -34,16 +34,30 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class AppModule {
 
+
+    @DataBaseName
     @Provides
-    @Singleton
-    fun provideOkHttpClient() =
-        OkHttpClient.Builder().addInterceptor(interceptor = Interceptor(API_KEY)).build()
+    fun provideDataBaseName(): String = DB_NAME
+
+    @ApiKey
+    @Provides
+    fun provideApiKey(): String = API_KEY
+
+    @BaseUrl
+    @Provides
+    fun provideBaseUrl(): String = BASE_URL
+
 
     @Provides
     @Singleton
-    fun provideNetwork(okHttpClient: OkHttpClient): NewsApi =
+    fun provideOkHttpClient(@ApiKey apiKey: String) =
+        OkHttpClient.Builder().addInterceptor(interceptor = Interceptor(apiKey)).build()
+
+    @Provides
+    @Singleton
+    fun provideNetwork(okHttpClient: OkHttpClient, @BaseUrl baseUrl: String): NewsApi =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -77,10 +91,5 @@ class AppModule {
     @Provides
     @Singleton
     fun provideDispatcher(): DispatcherProvider = DispatcherProviderImpl()
-
-
-    @DataBaseName
-    @Provides
-    fun provideDataBaseName(): String = DB_NAME
 
 }

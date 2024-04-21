@@ -3,7 +3,7 @@ package com.raj.morningherald.data.repository
 import com.raj.morningherald.core.common.ErrorException
 import com.raj.morningherald.core.common.connectivity.ConnectivityChecker
 import com.raj.morningherald.core.common.NoInternetException
-import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE
+import com.raj.morningherald.core.util.Constants.DEFAULT_PAGE_NO
 import com.raj.morningherald.data.local.database.NewsDatabase
 import com.raj.morningherald.data.local.entity.ArticleEntity
 import com.raj.morningherald.data.local.mapper.toArticle
@@ -93,7 +93,7 @@ class NewsRepositoryImpl @Inject constructor(
             page = pageNumber
         ).articles
         val articleEntities = fetchedArticles.map { it.toArticleEntity() }
-        return if (pageNumber == DEFAULT_PAGE) {
+        return if (pageNumber == DEFAULT_PAGE_NO) {
             newsDatabase.articleDao().deleteAllInsertAll(articleEntities)
             newsDatabase.articleDao().getAllArticles().first()
         } else {
