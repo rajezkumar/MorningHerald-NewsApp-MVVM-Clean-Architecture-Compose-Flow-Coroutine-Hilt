@@ -12,11 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -28,11 +31,13 @@ import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.raj.morningherald.core.util.ValidationUtil
 import com.raj.morningherald.domain.model.Article
+import com.raj.morningherald.domain.model.Source
 import com.raj.morningherald.presentation.base.ArticleScreen
 import com.raj.morningherald.presentation.browse.BrowseScreen
 import com.raj.morningherald.presentation.newslist.NewsListPagingScreen
 import com.raj.morningherald.presentation.newslist.NewsListScreen
 import com.raj.morningherald.presentation.newssource.NewsSourceScreen
+import com.raj.morningherald.presentation.newssource.SourceViewModel
 import java.net.URLEncoder
 
 @Composable
@@ -123,12 +128,13 @@ private fun NewsNavHost(
             }
         }
         composable(route = Routes.News.route) {
-            NewsSourceScreen {
-                if (it.id != null) {
-                    navigateToSourceScreen(it.id, navController)
+            NewsSourceRoute(
+                onSourceClick = { source ->
+                    source.id?.let { sourceId -> navigateToSourceScreen(sourceId, navController) }
                 }
-            }
+            )
         }
+
         composable(route = Routes.Browse.route) {
             BrowseScreen(
                 backPressed = {
@@ -148,6 +154,24 @@ private fun NewsNavHost(
             ArticleScreen(article)
         }
     }
+}
+
+@Composable
+fun NewsSourceRoute(
+    onSourceClick: (Source) -> Unit
+) {
+    val viewModel: SourceViewModel = hiltViewModel()
+    val uiState by viewModel.newsSource.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.getNewsSource()
+    }
+
+    NewsSourceScreen(
+        uiState = uiState,
+        onRetry = { viewModel.getNewsSource() },
+        onSourceClick = onSourceClick
+    )
 }
 
 private fun navigateToArticleScreen(

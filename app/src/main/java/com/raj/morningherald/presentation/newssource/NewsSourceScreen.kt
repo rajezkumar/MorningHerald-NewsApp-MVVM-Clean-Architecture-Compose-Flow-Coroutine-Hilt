@@ -28,34 +28,23 @@ import com.raj.morningherald.presentation.base.UiState
 
 @Composable
 fun NewsSourceScreen(
-    sourceFilterViewModel: SourceViewModel = hiltViewModel(),
-    sourceClicked: (Source) -> Unit
+    uiState: UiState<List<Source>>,
+    onRetry: () -> Unit,
+    onSourceClick: (Source) -> Unit
 ) {
-    val sourceUiState: UiState<List<Source>> by sourceFilterViewModel.newsSource.collectAsStateWithLifecycle()
-
-    when (sourceUiState) {
-        is UiState.Loading -> {
-            ShowLoading()
-        }
-
-        is UiState.Error -> {
-            ShowError(
-                text = (sourceUiState as UiState.Error<List<Source>>).message,
-                retryEnabled = true
-            ) {
-                sourceFilterViewModel.getNewsSource()
-            }
-        }
-
-        is UiState.Success -> {
-            SourceListLayout(sourceList = (sourceUiState as UiState.Success<List<Source>>).data) {
-                sourceClicked(it)
-            }
-        }
-
-        is UiState.Empty -> {}
+    when (uiState) {
+        is UiState.Loading -> ShowLoading()
+        is UiState.Error -> ShowError(
+            text = uiState.message,
+            retryEnabled = true,
+            retryClicked = onRetry
+        )
+        is UiState.Success -> SourceListLayout(
+            sourceList = uiState.data,
+            sourceClicked = onSourceClick
+        )
+        is UiState.Empty -> { /* Handle empty state */ }
     }
-
 }
 
 
